@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -90,7 +89,7 @@ void saveProducts(const char* filename){
 
 void displayProducts(){
     int i;
-    printf("\n===== PRODUCTS =====\n");
+    printf("\nProducts :\n");
     for(i=0;i<productCount;i++){
         printf("%d. [%s] %s - %.2f EUR - Stock: %d\n",
                i+1,
@@ -119,7 +118,7 @@ float cartTotal(CartItem* cart){
 }
 
 void showCart(CartItem* cart){
-    printf("\n===== CART =====\n");
+    printf("\nCart : \n");
     while(cart){
         printf("%s x%d\n",
                products[cart->productIndex].name,
@@ -234,13 +233,18 @@ void customerMode(){
     int choice;
 
     do{
-        printf("\n--- CUSTOMER ---\n");
+        printf("\nCustomer : \n");
         printf("1. View products\n");
         printf("2. Add to cart\n");
         printf("3. View cart\n");
         printf("4. Validate order\n");
         printf("0. Back\n");
-        scanf("%d",&choice);
+        if (scanf("%d",&choice) != 1) {
+            printf("Invalid number\n");
+            int ch;
+            while ((ch = getchar()) != '\n' && ch != EOF);
+            continue;
+        }
 
         if(choice==1){
             displayProducts();
@@ -269,10 +273,12 @@ void customerMode(){
                 continue;
             }
 
-            if(products[id].stock != -1 &&
-               qty > products[id].stock){
+            if(products[id].stock != -1 && qty > products[id].stock){
                 printf("Not enough stock.\n");
                 continue;
+            }
+            if(qty < 1){
+                printf("Choose a valid number as quantity");
             }
 
             addToCart(&cart,id,qty);
@@ -325,11 +331,18 @@ void adminMode(){
     int c;
 
     do{
-        printf("\n--- ADMIN ---\n");
+
+        printf("\nAdmin : \n");
         printf("1. Process delivery\n");
         printf("2. Statistics\n");
         printf("0. Back\n");
-        scanf("%d",&c);
+
+        if (scanf("%d", &c) != 1 || (c != 1 && c!=2 && c!=0)) {
+            printf("Invalid number\n");
+            int ch;
+            while ((ch = getchar()) != '\n' && ch != EOF);
+            continue;
+        }
 
         if(c==1){
             processDelivery();
@@ -338,7 +351,6 @@ void adminMode(){
             printf("Delivered: %d\n",stats.deliveredOrders);
             printf("Revenue: %.2f EUR\n",stats.revenue);
         }
-
     }while(c != 0);
 }
 
@@ -351,12 +363,17 @@ int main(){
     }
 
     do{
-        printf("\n===== E-COMMERCE DELIVERY =====\n");
+        printf("\ne-commerce delivery : \n");
         printf("1. Customer\n");
         printf("2. Administrator\n");
         printf("3. Exit\n");
         printf("Choice: ");
-        scanf("%d",&choice);
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid number\n");
+            int ch;
+            while ((ch = getchar()) != '\n' && ch != EOF);
+            continue;
+        }
 
         switch(choice){
             case 1:
