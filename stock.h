@@ -12,5 +12,6 @@ void displayProducts();
 int getProductCount();
 Product *getProductRef(int index);
 Product getProduct(int index);
+void showAllCategories();
 
 #define MAX_PRODUCTS 100

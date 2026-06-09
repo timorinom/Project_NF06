@@ -13,9 +13,10 @@ void customerMode()
     {
         printf("\n------ CUSTOMER MODE ------\n");
         printf("1. View products\n");
-        printf("2. Add to cart\n");
-        printf("3. View cart\n");
-        printf("4. Validate order\n");
+        printf("2. View all categories\n");
+        printf("3. Add to cart\n");
+        printf("4. View cart\n");
+        printf("5. Validate order\n");
         printf("0. Back\n");
         printf("Choice: ");
         if (scanf("%d", &choice) != 1)
@@ -36,12 +37,15 @@ void customerMode()
             displayProducts();
             break;
         case 2:
-            addToCartCLI(&cart);
+            showAllCategories();
             break;
         case 3:
-            showCart(cart);
+            addToCartCLI(&cart);
             break;
         case 4:
+            showCart(cart);
+            break;
+        case 5:
             if (validateCart(cart))
             {
                 emptyCart(cart);

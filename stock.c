@@ -62,12 +62,42 @@ void displayProducts()
     {
         if (products[i].stock == 0)
             continue;
-        printf("%d. [%s] %s - %.2f€ - Stock: %d\n",
+        printf("%d. [%s] %s - %.2fEUR - Stock: %d\n",
                i + 1,
                products[i].category,
                products[i].name,
                products[i].price,
                products[i].stock);
+    }
+}
+
+void showAllCategories()
+{
+    int i, j;
+    char categories[MAX_PRODUCTS][30];
+    int categoryCount = 0;
+
+    for (i = 0; i < productCount; i++)
+    {
+        int found = 0;
+        for (j = 0; j < categoryCount; j++)
+        {
+            if (strcmp(categories[j], products[i].category) == 0)
+            {
+                found = 1;
+                break;
+            }
+        }
+        if (!found)
+        {
+            strcpy(categories[categoryCount++], products[i].category);
+        }
+    }
+
+    printf("\nCategories :\n");
+    for (i = 0; i < categoryCount; i++)
+    {
+        printf("%d. %s\n", i + 1, categories[i]);
     }
 }
 

@@ -81,7 +81,7 @@ void showCart(CartItem *cart)
         cart = cart->next;
     }
 
-    printf("Total : %.2f€\n", price);
+    printf("Total : %.2fEUR\n", price);
 }
 
 float cartTotal(CartItem *cart)
