@@ -1,0 +1,2 @@
+void customerMode();
+void adminMode();
