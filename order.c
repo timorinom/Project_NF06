@@ -14,28 +14,6 @@ Statistics stats = {0, 0};
 int nextOrderId = 1;
 int scheduleCycle = 0;
 
-int validateStock(CartItem *cart)
-{
-    while (cart)
-    {
-        int stock = getProduct(cart->productIndex).stock;
-        if (stock != -1 && cart->quantity > stock)
-            return 0;
-        cart = cart->next;
-    }
-    return 1;
-}
-
-void updateStock(CartItem *cart)
-{
-    while (cart)
-    {
-        if (getProduct(cart->productIndex).stock != -1)
-            getProductRef(cart->productIndex)->stock -= cart->quantity;
-        cart = cart->next;
-    }
-}
-
 void enqueue(Queue *q, Order *o)
 {
     o->next = NULL;
@@ -141,15 +119,9 @@ void processDelivery()
 
 int validateCart(CartItem *cart)
 {
-    if (cart == NULL)
+    if (!checkCart(cart))
     {
-        printf("Cart empty.\n");
-        return 0;
-    }
-
-    if (!validateStock(cart))
-    {
-        printf("Stock changed.\n");
+        emptyCart(cart);
         return 0;
     }
 

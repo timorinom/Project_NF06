@@ -11,6 +11,63 @@ typedef struct CartItem
     struct CartItem *next;
 } CartItem;
 
+int validateStock(CartItem *cart)
+{
+    CartItem *current = cart;
+
+    while (current)
+    {
+        int totalQuantity = current->quantity;
+        CartItem *next = current->next;
+
+        while (next)
+        {
+            if (next->productIndex == current->productIndex)
+            {
+                totalQuantity += next->quantity;
+            }
+            next = next->next;
+        }
+
+        int stock = getProduct(current->productIndex).stock;
+        if (stock != -1 && totalQuantity > stock)
+        {
+            return 0;
+        }
+
+        current = current->next;
+    }
+
+    return 1;
+}
+
+void updateStock(CartItem *cart)
+{
+    while (cart)
+    {
+        if (getProduct(cart->productIndex).stock != -1)
+            getProductRef(cart->productIndex)->stock -= cart->quantity;
+        cart = cart->next;
+    }
+}
+
+int checkCart(CartItem *cart)
+{
+    if (cart == NULL)
+    {
+        printf("Cart empty.\n");
+        return 0;
+    }
+
+    if (!validateStock(cart))
+    {
+        printf("Not enough stock.\n");
+        return 0;
+    }
+
+    return 1;
+}
+
 void addToCart(CartItem **cart, int idx, int qty)
 {
     CartItem *n = malloc(sizeof(CartItem));
@@ -40,15 +97,10 @@ void addToCartCLI(CartItem **cart)
 
     id--;
 
-    if (getProduct(id).stock == 0)
-    {
-        printf("Unavailable.\n");
-        return;
-    }
+    CartItem future = {.productIndex = id, .quantity = qty, .next = *cart};
 
-    if (getProduct(id).stock != -1 && qty > getProduct(id).stock)
+    if (!checkCart(&future))
     {
-        printf("Not enough stock.\n");
         return;
     }
     if (qty < 1)
