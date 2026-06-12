@@ -27,6 +27,7 @@ void customerMode()
                 ;
 
             continue;
+            choice = -1;
         }
 
         switch (choice)
@@ -74,7 +75,7 @@ void adminMode()
             int ch;
             while ((ch = getchar()) != '\n' && ch != EOF)
                 ;
-
+            choice = -1;
             continue;
         }
 

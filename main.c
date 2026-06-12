@@ -27,7 +27,7 @@ int main()
             int ch;
             while ((ch = getchar()) != '\n' && ch != EOF)
                 ;
-
+            choice = -1;
             continue;
         }
 
