@@ -2,24 +2,24 @@
 
 typedef struct Order
 {
-    int id;
-    char address[100];
-    float total;
-    int priority;
-    CartItem *items;
-    struct Order *next;
+    int id;//ID of the order
+    char address[100];//Address of the order
+    float total;//Total price of the order
+    int priority;//Level of priority of the order
+    CartItem *items;//Items in the order (see cart.c and cart.h)
+    struct Order *next;//Pointer to the next link in the queue
 } Order;
 
 typedef struct
 {
-    Order *front;
-    Order *rear;
+    Order *front;//Head of the queue
+    Order *rear;//Last element (tail) of the queue
 } Queue;
 
 typedef struct
 {
-    int deliveredOrders;
-    float revenue;
+    int deliveredOrders;//Number of delivered orders
+    float revenue;//Total revenue
 } Statistics;
 
 int validateStock(CartItem *cart);
