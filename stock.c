@@ -7,45 +7,48 @@
 Product products[MAX_PRODUCTS];
 int productCount = 0;
 
+//Function to load the stock from the stock.csv file)
 int loadProducts(const char *filename)
 {
     FILE *f = fopen(filename, "r");
-    if (!f)
+    
+    if (f == NULL)
         return 0;
 
     Product p;
 
     while (1)
     {
-
-        // GET CATEGORY
+        //Gets categories
         int i = 0;
         char c;
         while ((c = fgetc(f)) != EOF && c != ',')
         {
             if (c != '\n' && c != '\r')
             {
-                p.category[i++] = c;
+                p.category[i] = c;
+                i++;
             }
         }
         p.category[i] = '\0';
 
-        // GET NAME
+        //Gets names of the product
         i = 0;
         while ((c = fgetc(f)) != EOF && c != ',')
         {
-            p.name[i++] = c;
+            p.name[i] = c;
+            i++;
         }
         p.name[i] = '\0';
 
-        // GET PRICE AND STOCK
-        if (fscanf(f, "%f,%d", &p.price, &p.stock) != 2)
-        {
+        //Gets prices and stocks
+        fscanf(f, "%f,%d", &p.price, &p.stock);
+        if (feof(f))
             break;
-        }
 
-        fgetc(f);
+        fgetc(f); //Takes the \n at the end of the line
 
+        //Current product is registered, going to the next
         products[productCount] = p;
         productCount++;
     }
@@ -53,15 +56,13 @@ int loadProducts(const char *filename)
     fclose(f);
     return 1;
 }
-
+//Function to display the whole list product by product
 void displayProducts()
 {
     int i;
     printf("\nProducts :\n");
     for (i = 0; i < productCount; i++)
     {
-        if (products[i].stock == 0)
-            continue;
         printf("%d. [%s] %s - %.2fEUR - Stock: %d\n",
                i + 1,
                products[i].category,
@@ -71,39 +72,41 @@ void displayProducts()
     }
 }
 
+//Function to
 void showAllCategories()
 {
     int i, j;
-    char categories[MAX_PRODUCTS][30];
+    char categories[MAX_PRODUCTS][30]; //Declares a list of categories
     int categoryCount = 0;
 
-    for (i = 0; i < productCount; i++)
+    for (i = 0; i < productCount; i++) //Loop to check all products
     {
         int found = 0;
-        for (j = 0; j < categoryCount; j++)
+        for (j = 0; j < categoryCount; j++) //Loop to check all categories in categories[]
         {
-            if (strcmp(categories[j], products[i].category) == 0)
+            if (strcmp(categories[j], products[i].category) == 0) //Checks if there is a match
             {
-                found = 1;
+                found = 1; //Orders not to copy category
                 break;
             }
         }
-        if (!found)
+        if (!found) //Copies if the category isn't already in categories[]
         {
             strcpy(categories[categoryCount++], products[i].category);
         }
     }
 
-    printf("\nCategories :\n");
+    printf("\nCategories :\n"); //Prints the list of categories
     for (i = 0; i < categoryCount; i++)
     {
         printf("%d. %s\n", i + 1, categories[i]);
     }
 }
 
+//Function to save the new product list into the file
 void saveProducts(const char *filename)
 {
-    FILE *f = fopen(filename, "w");
+    FILE *f = fopen(filename, "w"); //Opens the file in write mode (the file is rewritten from 0)
     int i;
     for (i = 0; i < productCount; i++)
     {
@@ -116,16 +119,19 @@ void saveProducts(const char *filename)
     fclose(f);
 }
 
+//Self explanatory
 int getProductCount()
 {
     return productCount;
 }
 
+//Self explanatory
 Product getProduct(int index)
 {
     return products[index];
 }
 
+//Same as getProduct but gives a pointer and not the value
 Product *getProductRef(int index)
 {
     return &products[index];
