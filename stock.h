@@ -4,7 +4,7 @@ typedef struct
     char category[30];
     float price;
     int stock; // -1 means unlimited
-} Product;
+} Product;//Product structure as defined in the project instructions
 
 int loadProducts(const char *filename);
 void saveProducts(const char *filename);
