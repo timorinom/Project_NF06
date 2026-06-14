@@ -7,7 +7,7 @@
 
 int main()
 {
-    if (!loadProducts("stock.csv"))
+    if (loadProducts("stock.csv") != 0) //Checks if the stock.csv file exists if so loads the products
     {
         printf("stock.csv not found.\n");
         return 1;
@@ -16,12 +16,12 @@ int main()
     int choice;
     do
     {
-        printf("\n------ e-commerce delivery ------ \n");
+        printf("\n------ e-commerce delivery ------ \n"); //Prints the available actions
         printf("1. Customer\n");
         printf("2. Administrator\n");
         printf("0. Exit\n");
         printf("Choice: ");
-        if (scanf("%d", &choice) != 1)
+        if (scanf("%d", &choice) != 1) //Gets the number of the chosen action
         {
             printf("Invalid number\n");
             int ch;
@@ -33,12 +33,12 @@ int main()
 
         switch (choice)
         {
-        case 0:
+        case 0: //Exits the program
             break;
-        case 1:
+        case 1: //Enters customer mode
             customerMode();
             break;
-        case 2:
+        case 2: //Enters administrator mode
             adminMode();
             break;
         default:
@@ -47,8 +47,8 @@ int main()
 
     } while (choice != 0);
 
+    saveProducts("stock.csv"); //Saves the stock into the stock.csv file
     printf("Stock saved.\n");
-    saveProducts("stock.csv");
 
     return 0;
 }
