@@ -31,17 +31,19 @@ int main()
             continue;
         }
 
-        switch (choice)
+        if (choice == 0) //Exits the program
         {
-        case 0: //Exits the program
-            break;
-        case 1: //Enters customer mode
+        }
+        else if (choice == 1) //Enters customer mode
+        {
             customerMode();
-            break;
-        case 2: //Enters administrator mode
+        }
+        else if (choice == 2) //Enters administrator mode
+        {
             adminMode();
-            break;
-        default:
+        }
+        else
+        {
             printf("Invalid choice.\n");
         }
 
